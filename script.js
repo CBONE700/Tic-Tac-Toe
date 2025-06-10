@@ -11,14 +11,13 @@ const Player = function (marker) {
 const DisplayLogic = (function () {
     const display = function () {
         const body = document.body;
-        body.innerHTML = `    
-        <div class="container">
-            <div class="gameBoard">
-                <div class="row0 col0"></div><div class="row0 col1"></div><div class="row0 col2"></div>
-                <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
-                <div class="row2 col0"></div><div class="row2 col1"></div><div class="row2 col2"></div>
-            </div>
-        </div>`
+        body.innerHTML = `
+        <div class="gameBoard">
+            <div class="row0 col0"></div><div class="row0 col1"></div><div class="row0 col2"></div>
+            <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
+            <div class="row2 col0"></div><div class="row2 col1"></div><div class="row2 col2"></div>
+        </div>
+        <div><button>Start</button></div>`
     };
     const playerInput = function () {
         const gameBoard = document.querySelector(".gameBoard");
@@ -27,6 +26,12 @@ const DisplayLogic = (function () {
             square.addEventListener("click", () => {
                 if (square.textContent == '' && !Game.checkWinner()){
                     square.innerHTML = Game.round(square.classList[0].slice(-1), square.classList[1].slice(-1));
+                    if (square.textContent == 'X') {
+                        square.style.color = 'red';
+                    }
+                    else if (square.textContent == 'O') {
+                        square.style.color = 'blue';
+                    }
                 }
                 if (Game.checkWinner()){
                     alert(Game.checkWinner());
