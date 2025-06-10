@@ -23,16 +23,19 @@ const DisplayLogic = (function () {
     };
     const playerInput = function () {
         const btn = document.querySelector("#start");
+        const squares = document.querySelector(".gameBoard").children;
         btn.addEventListener("click", () => {
+            for (let square of squares){
+                square.textContent = '';
+            }
             if (btn.textContent == 'Start'){
                 btn.textContent = 'Reset';
-            }
+                }
             else {
                 Game.reset();
                 btn.textContent = 'Start';
             }
         })
-        const squares = document.querySelector(".gameBoard").children;
         for (let square of squares){
             square.addEventListener("click", () => {
                 if (square.textContent == '' && btn.textContent != "Start"){
@@ -45,8 +48,8 @@ const DisplayLogic = (function () {
                     }
                 }
                 if (Game.checkWinner()){
-                    Game.reset();
                     btn.textContent = 'Start';
+                    Game.reset();
                 }
             })
         }
@@ -100,25 +103,21 @@ const Game = (function () {
     }
     const reset = function (){
         if (Game.checkWinner() == 1){
-            console.log("P1 Wins!");
+            alert("Player 1 Wins!");
             player1.score++;
             document.querySelector("#p1score").textContent = player1.score;
         }
         else if (Game.checkWinner() == 2){
-            console.log("P2 Wins!");
+            alert("Player 2 Wins!");
             player2.score++;
             document.querySelector("#p2score").textContent = player2.score;
         }
         else if (Game.checkWinner() == 3){
-            console.log("Draw!");
+            alert("Draw!");
         }
         rounds = 0;
         turn = 1;
         GameBoard.gameBoard.forEach(item => item.fill(0));
-        const squares = document.querySelector(".gameBoard").children;
-        for (let square of squares){
-            square.textContent = '';
-        }
     }
     const play = (function (){
         DisplayLogic.display();
