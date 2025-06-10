@@ -77,29 +77,6 @@ const Game = (function () {
 
 const DisplayLogic = (function () {
     const display = (function () {
-        const body = document.body;
-        body.innerHTML = `
-        <div class="score"><div><p id="p1score">0</p></div><div><p id="p2score">0</p></div></div>
-        <div class="gameBoard">
-            <div class="row0 col0"></div><div class="row0 col1"></div><div class="row0 col2"></div>
-            <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
-            <div class="row2 col0"></div><div class="row2 col1"></div><div class="row2 col2"></div>
-        </div>
-        <dialog id="updateName">
-            <form>
-                <p>
-                    <label for="p1NameForm">Player 1 Name:</label>
-                    <input type="text" id="p1NameForm" name="p1NameForm">
-                </p>
-                <p>
-                    <label for="p2NameForm">Player 2 Name:</label>
-                    <input type="text" id="p2NameForm" name="p2NameForm">
-                </p>
-                <button autofocus type="submit" id="submitNames">Set Names</button>
-            </form>
-            <button id="modalClose">Close</button>
-        </dialog>
-        <div><button id="start">Start</button><button id="modalOpen">Set Names</button></div>`
         let btnOpen = document.getElementById('modalOpen');
         let dialog = document.getElementById('updateName');
         let btnClose = document.getElementById('modalClose');
@@ -117,6 +94,10 @@ const DisplayLogic = (function () {
             else {
                 Game.player1.name = document.getElementById("p1NameForm").value;
                 Game.player2.name = document.getElementById("p2NameForm").value;
+                document.getElementById("p1Name").textContent = `${Game.player1.name}: `;
+                document.getElementById("p2Name").textContent = `${Game.player2.name}: `;
+                document.getElementById("p1NameForm").value = '';
+                document.getElementById("p2NameForm").value = '';
             }
             e.preventDefault();
         })

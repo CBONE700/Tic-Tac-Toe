@@ -8,5 +8,41 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <div class="score">
+        <div>
+            <h1>SCORE</h1>
+        </div>
+        <div class="playerScore">
+            <p id="p1Name">Player 1: </p>
+            <p id="p1score">0</p>
+        </div>
+        <div class="playerScore">
+            <p id="p2Name">Player 2: </p>
+            <p id="p2score">0</p>
+        </div>
+    </div>
+    <div class="gameBoard">
+        <div class="row0 col0"></div><div class="row0 col1"></div><div class="row0 col2"></div>
+        <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
+        <div class="row2 col0"></div><div class="row2 col1"></div><div class="row2 col2"></div>
+    </div>
+    <dialog id="updateName">
+        <form>
+            <p>
+                <label for="p1NameForm">Player 1 Name:</label>
+                <input type="text" id="p1NameForm" name="p1NameForm">
+            </p>
+            <p>
+                <label for="p2NameForm">Player 2 Name:</label>
+                <input type="text" id="p2NameForm" name="p2NameForm">
+            </p>
+            <button autofocus type="submit" id="submitNames">Set Names</button>
+        </form>
+        <button id="modalClose">Close</button>
+    </dialog>
+    <div>
+        <button id="start">Start</button>
+        <button id="modalOpen">Set Names</button>
+    </div>
 </body>
 </html>
