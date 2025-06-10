@@ -13,6 +13,7 @@ const DisplayLogic = (function () {
     const display = function () {
         const body = document.body;
         body.innerHTML = `
+        <div class="score"><div id="p1score">0</div><div id="p2score">0</div></div>
         <div class="gameBoard">
             <div class="row0 col0"></div><div class="row0 col1"></div><div class="row0 col2"></div>
             <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
@@ -101,10 +102,12 @@ const Game = (function () {
         if (Game.checkWinner() == 1){
             console.log("P1 Wins!");
             player1.score++;
+            document.querySelector("#p1score").textContent = player1.score;
         }
         else if (Game.checkWinner() == 2){
             console.log("P2 Wins!");
             player2.score++;
+            document.querySelector("#p2score").textContent = player2.score;
         }
         else if (Game.checkWinner() == 3){
             console.log("Draw!");
