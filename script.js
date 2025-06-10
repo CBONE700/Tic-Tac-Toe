@@ -3,9 +3,10 @@ const GameBoard = (function () {
     return {gameBoard};
 })();
 
-const Player = function (marker) {
+const Player = function (marker, score) {
     this.marker = marker;
-    return{marker};
+    this.score = score
+    return{marker, score};
 }
 
 const DisplayLogic = (function () {
@@ -17,14 +18,23 @@ const DisplayLogic = (function () {
             <div class="row1 col0"></div><div class="row1 col1"></div><div class="row1 col2"></div>
             <div class="row2 col0"></div><div class="row2 col1"></div><div class="row2 col2"></div>
         </div>
-        <div><button>Start</button></div>`
+        <div><button id="start">Start</button></div>`
     };
     const playerInput = function () {
-        const gameBoard = document.querySelector(".gameBoard");
-        const squares = gameBoard.children;
+        const btn = document.querySelector("#start");
+        btn.addEventListener("click", () => {
+            if (btn.textContent == 'Start'){
+                btn.textContent = 'Reset';
+            }
+            else {
+                Game.reset();
+                btn.textContent = 'Start';
+            }
+        })
+        const squares = document.querySelector(".gameBoard").children;
         for (let square of squares){
             square.addEventListener("click", () => {
-                if (square.textContent == '' && !Game.checkWinner()){
+                if (square.textContent == '' && btn.textContent != "Start"){
                     square.innerHTML = Game.round(square.classList[0].slice(-1), square.classList[1].slice(-1));
                     if (square.textContent == 'X') {
                         square.style.color = 'red';
@@ -34,7 +44,8 @@ const DisplayLogic = (function () {
                     }
                 }
                 if (Game.checkWinner()){
-                    alert(Game.checkWinner());
+                    Game.reset();
+                    btn.textContent = 'Start';
                 }
             })
         }
@@ -42,12 +53,9 @@ const DisplayLogic = (function () {
     return {display, playerInput};
 })();
 
-DisplayLogic.display();
-DisplayLogic.playerInput();
-
 const Game = (function () {
-    const player1 = Player('X');
-    const player2 = Player('O');
+    const player1 = Player('X', 0);
+    const player2 = Player('O', 0);
     let turn = 1;
     let rounds = 0;
     const round = function(row, col) {
@@ -73,7 +81,7 @@ const Game = (function () {
             GameBoard.gameBoard[0][2] == 'X' && GameBoard.gameBoard[1][2] == 'X' && GameBoard.gameBoard[2][2] == 'X' ||
             GameBoard.gameBoard[0][0] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[2][2] == 'X' ||
             GameBoard.gameBoard[0][2] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[2][0] == 'X') {
-                return "Player 1 Wins!";
+                return 1;
             }
         else if (GameBoard.gameBoard[0][0] == 'O' && GameBoard.gameBoard[0][1] == 'O' && GameBoard.gameBoard[0][2] == 'O' ||
             GameBoard.gameBoard[1][0] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[1][2] == 'O' ||
@@ -83,17 +91,35 @@ const Game = (function () {
             GameBoard.gameBoard[0][2] == 'O' && GameBoard.gameBoard[1][2] == 'O' && GameBoard.gameBoard[2][2] == 'O' ||
             GameBoard.gameBoard[0][0] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[2][2] == 'O' ||
             GameBoard.gameBoard[0][2] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[2][0] == 'O') {
-                return "Player 2 Wins!";
+                return 2;
             }
         else if (rounds == 9){
-            return "Draw!";
+            return 3;
         }
     }
-    const play = function (){
+    const reset = function (){
+        if (Game.checkWinner() == 1){
+            console.log("P1 Wins!");
+            player1.score++;
+        }
+        else if (Game.checkWinner() == 2){
+            console.log("P2 Wins!");
+            player2.score++;
+        }
+        else if (Game.checkWinner() == 3){
+            console.log("Draw!");
+        }
+        rounds = 0;
+        turn = 1;
+        GameBoard.gameBoard.forEach(item => item.fill(0));
+        const squares = document.querySelector(".gameBoard").children;
+        for (let square of squares){
+            square.textContent = '';
+        }
+    }
+    const play = (function (){
         DisplayLogic.display();
         DisplayLogic.playerInput();
-    }
-    return {round, play, checkWinner}
+    })();
+    return {round, checkWinner, reset}
 })();
-
-Game.play();
