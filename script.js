@@ -134,6 +134,12 @@ const DisplayLogic = (function () {
                     btn.textContent = 'Reset ';
                 }
             })
+            square.addEventListener("mouseover", (e) => {
+                square.style.backgroundColor = "lightgray";
+            })
+            square.addEventListener("mouseout", (e) => {
+                square.style.backgroundColor = "white";
+            })
         }
     })();
 })();
