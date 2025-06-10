@@ -25,7 +25,12 @@ const DisplayLogic = (function () {
         const squares = gameBoard.children;
         for (let square of squares){
             square.addEventListener("click", () => {
-                //Update the DOM with O or X and update the Array with O or X
+                if (square.textContent == '' && !Game.checkWinner()){
+                    square.innerHTML = Game.round(square.classList[0].slice(-1), square.classList[1].slice(-1));
+                }
+                if (Game.checkWinner()){
+                    alert(Game.checkWinner());
+                }
             })
         }
     }
@@ -45,52 +50,45 @@ const Game = (function () {
             GameBoard.gameBoard[row][col] = player1.marker;
             turn++;
             rounds++;
-            console.log(rounds);
+            return player1.marker;
         }
         else if (turn === 2) {
             GameBoard.gameBoard[row][col] = player2.marker;
             turn--;
             rounds++;
-            console.log(rounds);
+            return player2.marker;
         }
     }
     const checkWinner = function(){
         if (GameBoard.gameBoard[0][0] == 'X' && GameBoard.gameBoard[0][1] == 'X' && GameBoard.gameBoard[0][2] == 'X' ||
             GameBoard.gameBoard[1][0] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[1][2] == 'X' ||
             GameBoard.gameBoard[2][0] == 'X' && GameBoard.gameBoard[2][1] == 'X' && GameBoard.gameBoard[2][2] == 'X' ||
+            GameBoard.gameBoard[0][0] == 'X' && GameBoard.gameBoard[1][0] == 'X' && GameBoard.gameBoard[2][0] == 'X' ||
+            GameBoard.gameBoard[0][1] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[2][1] == 'X' ||
+            GameBoard.gameBoard[0][2] == 'X' && GameBoard.gameBoard[1][2] == 'X' && GameBoard.gameBoard[2][2] == 'X' ||
             GameBoard.gameBoard[0][0] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[2][2] == 'X' ||
-            GameBoard.gameBoard[0][2] == 'X' && GameBoard.gameBoard[0][1] == 'X' && GameBoard.gameBoard[2][0] == 'X') {
-                /* MAKE RETURN */console.log("Player 1 Wins!");
+            GameBoard.gameBoard[0][2] == 'X' && GameBoard.gameBoard[1][1] == 'X' && GameBoard.gameBoard[2][0] == 'X') {
+                return "Player 1 Wins!";
             }
         else if (GameBoard.gameBoard[0][0] == 'O' && GameBoard.gameBoard[0][1] == 'O' && GameBoard.gameBoard[0][2] == 'O' ||
             GameBoard.gameBoard[1][0] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[1][2] == 'O' ||
             GameBoard.gameBoard[2][0] == 'O' && GameBoard.gameBoard[2][1] == 'O' && GameBoard.gameBoard[2][2] == 'O' ||
+            GameBoard.gameBoard[0][0] == 'O' && GameBoard.gameBoard[1][0] == 'O' && GameBoard.gameBoard[2][0] == 'O' ||
+            GameBoard.gameBoard[0][1] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[2][1] == 'O' ||
+            GameBoard.gameBoard[0][2] == 'O' && GameBoard.gameBoard[1][2] == 'O' && GameBoard.gameBoard[2][2] == 'O' ||
             GameBoard.gameBoard[0][0] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[2][2] == 'O' ||
-            GameBoard.gameBoard[0][2] == 'O' && GameBoard.gameBoard[0][1] == 'O' && GameBoard.gameBoard[2][0] == 'O') {
-                console.log("Player 2 Wins!");
+            GameBoard.gameBoard[0][2] == 'O' && GameBoard.gameBoard[1][1] == 'O' && GameBoard.gameBoard[2][0] == 'O') {
+                return "Player 2 Wins!";
             }
         else if (rounds == 9){
-            console.log("Draw!");
+            return "Draw!";
         }
     }
-    return {round, checkWinner}
+    const play = function (){
+        DisplayLogic.display();
+        DisplayLogic.playerInput();
+    }
+    return {round, play, checkWinner}
 })();
 
-Game.round(0, 0);
-console.log(GameBoard.gameBoard);
-Game.round(1, 0);
-console.log(GameBoard.gameBoard);
-Game.round(0, 1);
-console.log(GameBoard.gameBoard);
-Game.round(1, 1);
-console.log(GameBoard.gameBoard);
-Game.round(2, 2);
-console.log(GameBoard.gameBoard);
-Game.round(1, 2);
-console.log(GameBoard.gameBoard);
-Game.round(2, 0);
-console.log(GameBoard.gameBoard);
-Game.round(0, 1);
-console.log(GameBoard.gameBoard);
-Game.round(2, 1);
-Game.checkWinner();
+Game.play();
